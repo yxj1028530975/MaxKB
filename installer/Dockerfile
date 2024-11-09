@@ -27,11 +27,13 @@ COPY --from=web-build ui /opt/maxkb/app/ui
 WORKDIR /opt/maxkb/app
 RUN python3 -m venv /opt/py3 && \
     . /opt/py3/bin/activate && \
-    pip config set global.index-url https://mirrors.aliyun.com/pypi/simple/ && \
+    pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
+
+RUN . /opt/py3/bin/activate && \
     pip install poetry --break-system-packages --timeout=600 && \
     poetry config virtualenvs.create false && \
     if [ "$(uname -m)" = "x86_64" ]; then sed -i 's/^torch.*/torch = {version = "^2.2.1+cpu", source = "pytorch"}/g' pyproject.toml; fi && \
-    poetry install --timeout=300
+    poetry install 
 
 FROM ghcr.io/1panel-dev/maxkb-python-pg:python3.11-pg15.8
 ARG DOCKER_IMAGE_TAG=dev \
