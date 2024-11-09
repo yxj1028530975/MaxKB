@@ -8,6 +8,7 @@ RUN cd ui && \
     npm install && \
     npm run build && \
     rm -rf ./node_modules
+
 FROM ghcr.io/1panel-dev/maxkb-python-pg:python3.11-pg15.8 AS stage-build
 
 ARG DEPENDENCIES="                    \
@@ -27,10 +28,10 @@ WORKDIR /opt/maxkb/app
 RUN python3 -m venv /opt/py3 && \
     . /opt/py3/bin/activate && \
     pip config set global.index-url https://mirrors.aliyun.com/pypi/simple/ && \
-    pip install poetry --break-system-packages --timeout=120 && \
+    pip install poetry --break-system-packages --timeout=600 && \
     poetry config virtualenvs.create false && \
     if [ "$(uname -m)" = "x86_64" ]; then sed -i 's/^torch.*/torch = {version = "^2.2.1+cpu", source = "pytorch"}/g' pyproject.toml; fi && \
-    poetry install
+    poetry install --timeout=300
 
 FROM ghcr.io/1panel-dev/maxkb-python-pg:python3.11-pg15.8
 ARG DOCKER_IMAGE_TAG=dev \
