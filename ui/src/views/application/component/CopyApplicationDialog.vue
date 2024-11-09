@@ -142,19 +142,20 @@ const open = (data: any) => {
 }
 
 const submitValid = (formEl: FormInstance | undefined) => {
-  if (user.isEnterprise()) {
-    submitHandle(formEl)
-  } else {
-    common
-      .asyncGetValid(ValidType.Application, ValidCount.Application, loading)
-      .then(async (res: any) => {
-        if (res?.data) {
-          submitHandle(formEl)
-        } else {
-          MsgAlert('提示', '社区版最多支持 5 个应用，如需拥有更多应用，请升级为专业版。')
-        }
-      })
-  }
+  submitHandle(formEl)
+  // if (user.isEnterprise()) {
+  //   submitHandle(formEl)
+  // } else {
+  //   common
+  //     .asyncGetValid(ValidType.Application, ValidCount.Application, loading)
+  //     .then(async (res: any) => {
+  //       if (res?.data) {
+  //         submitHandle(formEl)
+  //       } else {
+  //         MsgAlert('提示', '社区版最多支持 5 个应用，如需拥有更多应用，请升级为专业版。')
+  //       }
+  //     })
+  // }
 }
 const submitHandle = async (formEl: FormInstance | undefined) => {
   if (!formEl) return

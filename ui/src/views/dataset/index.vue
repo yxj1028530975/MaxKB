@@ -170,26 +170,27 @@ const userOptions = ref<UserOption[]>([])
 const selectUserId = ref('all')
 
 function openCreateDialog() {
-  if (user.isEnterprise()) {
-    CreateDatasetDialogRef.value.open()
-  } else {
-    MsgConfirm(`提示`, '社区版最多支持 50 个知识库，如需拥有更多知识库，请升级为专业版。', {
-      cancelButtonText: '确定',
-      confirmButtonText: '购买专业版'
-    })
-      .then(() => {
-        window.open('https://maxkb.cn/pricing.html', '_blank')
-      })
-      .catch(() => {
-        common
-          .asyncGetValid(ValidType.Dataset, ValidCount.Dataset, loading)
-          .then(async (res: any) => {
-            if (res?.data) {
-              CreateDatasetDialogRef.value.open()
-            }
-          })
-      })
-  }
+  CreateDatasetDialogRef.value.open()
+  // if (user.isEnterprise()) {
+  //   CreateDatasetDialogRef.value.open()
+  // } else {
+  //   MsgConfirm(`提示`, '社区版最多支持 50 个知识库，如需拥有更多知识库，请升级为专业版。', {
+  //     cancelButtonText: '确定',
+  //     confirmButtonText: '购买专业版'
+  //   })
+  //     .then(() => {
+  //       window.open('https://maxkb.cn/pricing.html', '_blank')
+  //     })
+  //     .catch(() => {
+  //       common
+  //         .asyncGetValid(ValidType.Dataset, ValidCount.Dataset, loading)
+  //         .then(async (res: any) => {
+  //           if (res?.data) {
+  //             CreateDatasetDialogRef.value.open()
+  //           }
+  //         })
+  //     })
+  // }
 }
 
 function refresh() {
